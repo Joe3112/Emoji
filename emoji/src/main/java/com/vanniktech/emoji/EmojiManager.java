@@ -172,7 +172,7 @@ import static com.vanniktech.emoji.Utils.checkNotNull;
     emojiReplacer.replaceWithImages(context, text, emojiSize, defaultEmojiSize, DEFAULT_EMOJI_REPLACER);
   }
 
-  EmojiCategory[] getCategories() {
+  public EmojiCategory[] getCategories() {
     verifyInstalled();
     return categories; // NOPMD
   }

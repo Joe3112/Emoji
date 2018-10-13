@@ -35,6 +35,10 @@ public final class EmojiImageView extends AppCompatImageView {
 
   private boolean hasVariants;
 
+  public EmojiImageView(Context context) {
+    super(context);
+  }
+
   public EmojiImageView(final Context context, final AttributeSet attrs) {
     super(context, attrs);
 
@@ -112,8 +116,10 @@ public final class EmojiImageView extends AppCompatImageView {
         }
       } : null);
 
-      imageLoadingTask = new ImageLoadingTask(this);
-      imageLoadingTask.execute(emoji);
+//      imageLoadingTask = new ImageLoadingTask(this);
+//      imageLoadingTask.execute(emoji);
+
+      setImageDrawable(emoji.getDrawable(getContext()));
     }
   }
 

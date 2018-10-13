@@ -28,5 +28,3 @@ dependencies {
   testImplementation rootProject.ext.testing.robolectric
   testImplementation rootProject.ext.testing.privateConstructor
 }
-
-apply plugin: "com.vanniktech.maven.publish"

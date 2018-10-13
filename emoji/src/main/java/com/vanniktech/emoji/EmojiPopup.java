@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import com.vanniktech.emoji.emoji.Emoji;
@@ -88,7 +89,8 @@ public final class EmojiPopup {
             @Nullable final RecentEmoji recent, @Nullable final VariantEmoji variant,
             @ColorInt final int backgroundColor, @ColorInt final int iconColor, @ColorInt final int dividerColor) {
     this.context = Utils.asActivity(rootView.getContext());
-    this.rootView = rootView.getRootView();
+    this.rootView = rootView;
+//    this.rootView = rootView.getRootView();
     this.editInterface = editInterface;
     this.recentEmoji = recent != null ? recent : new RecentEmojiManager(context);
     this.variantEmoji = variant != null ? variant : new VariantEmojiManager(context);
@@ -142,15 +144,21 @@ public final class EmojiPopup {
     });
   }
 
+  public EmojiView getEmojiView(){
+      return (EmojiView) popupWindow.getContentView();
+  }
+
   public void toggle() {
     if (!popupWindow.isShowing()) {
       // Remove any previous listeners to avoid duplicates.
       Utils.removeOnGlobalLayoutListener(context.getWindow().getDecorView(), onGlobalLayoutListener);
       context.getWindow().getDecorView().getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
 
-      if (isKeyboardOpen) {
+      showAtBottom();
+
+     /* if (isKeyboardOpen) {
         // If the keyboard is visible, simply show the emoji popup.
-        showAtBottom();
+
       } else if (editInterface instanceof View) {
         final View view = (View) editInterface;
 
@@ -164,7 +172,7 @@ public final class EmojiPopup {
         inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
       } else {
         throw new IllegalArgumentException("The provided editInterace isn't a View instance.");
-      }
+      }*/
     } else {
       dismiss();
     }
@@ -184,10 +192,10 @@ public final class EmojiPopup {
     variantEmoji.persist();
   }
 
-  void showAtBottom() {
+  public void showAtBottom() {
     final Point desiredLocation = new Point(0, Utils.screenHeight(context) - popupWindow.getHeight());
-
     popupWindow.showAtLocation(rootView, Gravity.NO_GRAVITY, desiredLocation.x, desiredLocation.y);
+    popupWindow.setOutsideTouchable(true);
     Utils.fixPopupLocation(popupWindow, desiredLocation);
 
     if (onEmojiPopupShownListener != null) {

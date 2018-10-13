@@ -5,7 +5,8 @@ afterEvaluate {
 }
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion as int
+//  compileSdkVersion rootProject.ext.compileSdkVersion as int
+  compileSdkVersion project.parent.ext.compileSdkVersion as int
 
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_7
@@ -22,5 +23,3 @@ android {
 dependencies {
   api project(':emoji')
 }
-
-apply plugin: "com.vanniktech.maven.publish"
